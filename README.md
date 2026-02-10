@@ -1,5 +1,14 @@
-# Vue 3 + TypeScript + Vite
+# 📚 StaReview – Frontend
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+StaReview é uma aplicação web voltada para **resenhas literárias**, permitindo que leitores compartilhem opiniões, descubram novos livros e interajam através de avaliações e comentários.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 🚀 Tecnologias
+- **Vue 3**
+- **TypeScript**
+- **Vite**
+- **Pinia**
+- **Vue Router**
+- **Tailwind CSS**
+- **Axios**
+
+
