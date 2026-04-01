@@ -16,8 +16,13 @@ const error = ref('')
 const handleSubmit = async () => {
   error.value = ''
 
-  if (!name.value || !email.value || !password.value || confirmPassword.value !== password.value) {
-    error.value = 'Preencha todos os campos corretamente'
+  if (!name.value || !email.value || !password.value || !confirmPassword.value) {
+    error.value = 'Preencha todos os campos'
+    return
+  }
+
+  if (password.value !== confirmPassword.value) {
+    error.value = 'As senhas não coincidem'
     return
   }
 
