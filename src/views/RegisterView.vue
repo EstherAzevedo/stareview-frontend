@@ -5,11 +5,42 @@ import logo from '../assets/logo-star.png'
 
 const router = useRouter()
 
+
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
+const loading = ref(false)
 const error = ref('')
+
+const handleSubmit = async () => {
+  error.value = ''
+
+  if (!name.value || !email.value || !password.value || confirmPassword.value !== password.value) {
+    error.value = 'Preencha todos os campos corretamente'
+    return
+  }
+
+  try {
+    loading.value = true
+
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    console.log('Dados enviados:', {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value
+    })
+
+    alert('Cadastro realizado com sucesso!')
+
+  } catch (err) {
+    error.value = 'Erro ao cadastrar'
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -45,7 +76,7 @@ const error = ref('')
           Criar Conta
         </h2>
 
-        <form class="space-y-4">
+        <form class="space-y-4" @submit.prevent="handleSubmit">
 
           <!-- Nome -->
           <div class="flex flex-col">
