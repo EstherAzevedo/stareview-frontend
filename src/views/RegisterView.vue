@@ -40,6 +40,14 @@ const handleSubmit = async () => {
 
     alert('Cadastro realizado com sucesso!')
 
+    router.push('/login')
+
+    //limpar campos
+    name.value = ''
+    email.value = ''
+    password.value = ''
+    confirmPassword.value = ''  
+
   } catch (err) {
     error.value = 'Erro ao cadastrar'
   } finally {
@@ -135,9 +143,10 @@ const handleSubmit = async () => {
           <!-- BOTÃO -->
           <button
             type="submit"
-            class="w-full bg-[#6B1E3D] text-white py-3 rounded-lg font-semibold hover:opacity-90 transition"
+            :disabled="loading"
+            class="w-full bg-[#6B1E3D] text-white py-3 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
           >
-            Criar Conta
+            {{ loading ? 'Cadastrando...' : 'Criar Conta' }}
           </button>
 
           <!-- LINK -->
