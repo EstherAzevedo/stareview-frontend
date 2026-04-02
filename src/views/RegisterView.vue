@@ -1,59 +1,49 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import logo from '../assets/logo-star.png'
+import logo from '../assets/logo-star-antigo.png'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { registerSchema } from '@/validation/registerSchema'
 
 const router = useRouter()
-
-
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
 const loading = ref(false)
-const error = ref('')
 
-const handleSubmit = async () => {
-  error.value = ''
-
-  if (!name.value || !email.value || !password.value || !confirmPassword.value) {
-    error.value = 'Preencha todos os campos'
-    return
+const { handleSubmit, errors, defineField, resetForm } = useForm({
+  validationSchema: toTypedSchema(registerSchema),
+  initialValues: {
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   }
+})
 
-  if (password.value !== confirmPassword.value) {
-    error.value = 'As senhas não coincidem'
-    return
-  }
+const [name, nameAttrs] = defineField('name', {
+  validateOnModelUpdate: true 
+})
 
+const [email, emailAttrs] = defineField('email', {
+  validateOnModelUpdate: true 
+})
+const [password, passwordAttrs] = defineField('password', {
+  validateOnModelUpdate: true 
+})
+
+const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword', {
+  validateOnModelUpdate: true 
+})
+
+const handleRegister = handleSubmit(async (values) => {
+  loading.value = true
   try {
-    loading.value = true
-
     await new Promise(resolve => setTimeout(resolve, 1000))
-
-    console.log('Dados enviados:', {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      confirmPassword: confirmPassword.value
-    })
-
-    alert('Cadastro realizado com sucesso!')
-
-    router.push('/login')
-
-    //limpar campos
-    name.value = ''
-    email.value = ''
-    password.value = ''
-    confirmPassword.value = ''  
-
-  } catch (err) {
-    error.value = 'Erro ao cadastrar'
+    console.log('Sucesso:', values)
+    resetForm()
   } finally {
     loading.value = false
   }
-}
+})
 </script>
 
 <template>
@@ -89,17 +79,21 @@ const handleSubmit = async () => {
           Criar Conta
         </h2>
 
-        <form class="space-y-4" @submit.prevent="handleSubmit">
+        <form class="space-y-4" @submit.prevent="handleRegister">
 
           <!-- Nome -->
           <div class="flex flex-col">
             <label class="text-sm mb-1 text-gray-700">Nome</label>
             <input
               v-model="name"
+              v-bind="nameAttrs"
               type="text"
               placeholder="Seu nome completo"
               class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7E57C2]"
             />
+            <p class="text-sm text-red-600">
+                {{ errors.name }}
+            </p>
           </div>
 
           <!-- Email -->
@@ -107,10 +101,14 @@ const handleSubmit = async () => {
             <label class="text-sm mb-1 text-gray-700">Email</label>
             <input
               v-model="email"
+              v-bind="emailAttrs"
               type="email"
               placeholder="seuemail@email.com"
               class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7E57C2]"
             />
+            <p class="text-sm text-red-600">
+              {{ errors.email }}
+            </p>
           </div>
 
           <!-- Senha -->
@@ -118,10 +116,14 @@ const handleSubmit = async () => {
             <label class="text-sm mb-1 text-gray-700">Senha</label>
             <input
               v-model="password"
+              v-bind="passwordAttrs"
               type="password"
               placeholder="********"
               class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7E57C2]"
             />
+            <p class="text-sm text-red-600 mt-1">
+              {{ errors.password }}
+            </p>
           </div>
 
           <!-- Confirmar -->
@@ -129,16 +131,16 @@ const handleSubmit = async () => {
             <label class="text-sm mb-1 text-gray-700">Confirmar Senha</label>
             <input
               v-model="confirmPassword"
+              v-bind="confirmPasswordAttrs"
               type="password"
               placeholder="********"
               class="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7E57C2]"
             />
-          </div>
 
-          <!-- ERRO -->
-          <p v-if="error" class="text-sm text-red-600">
-            {{ error }}
-          </p>
+            <p class="text-sm text-red-600 mt-1">
+              {{ errors.confirmPassword }}
+            </p>
+          </div>
 
           <!-- BOTÃO -->
           <button

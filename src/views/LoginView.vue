@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import logo from '../assets/logo-star.png'
+import logo from '../assets/logo-star-antigo.png'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { loginSchema } from '@/validation/loginSchema'
