@@ -3,7 +3,12 @@ export default {
   content: ["./index.html",
   "./src/**/*.{vue,js,ts}",],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        karla: ['Karla', 'sans-serif'],
+        inconsolata: ['Inconsolata', 'monospace']
+      }
+    },
   },
   plugins: [],
 }
