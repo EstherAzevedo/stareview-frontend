@@ -5,8 +5,10 @@ import logoBgWhite from '../assets/logo_horizontal_bg_white.svg'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { loginSchema } from '@/validation/loginSchema'
+import { useRouter } from 'vue-router'
 
 const loading = ref(false)
+const router = useRouter()
 
 const { handleSubmit, errors, defineField, resetForm } = useForm({
   validationSchema: toTypedSchema(loginSchema),
@@ -29,6 +31,7 @@ const handleLogin = handleSubmit(async (values) => {
     await new Promise(resolve => setTimeout(resolve, 1000))
     console.log('Sucesso:', values)
     resetForm()
+    router.push('/home')
   } finally {
     loading.value = false
   }
@@ -115,7 +118,7 @@ const handleLogin = handleSubmit(async (values) => {
 
             <p class="text-left text-sm mt-8">
               Não possui conta?
-              <router-link to="/" class="text-[#880D1E] font-semibold">
+              <router-link to="/register" class="text-[#880D1E] font-semibold">
                 Criar conta
               </router-link>
             </p>
